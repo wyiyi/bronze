@@ -1,0 +1,7 @@
+create table USER
+(
+    ID   DECIMAL(65535, 32767),
+    NAME VARCHAR,
+    SEX  VARCHAR,
+    ADDR VARCHAR
+);
