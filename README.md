@@ -1,5 +1,3 @@
-# bronze
-
 ## 搭建 bronze 环境：
 工程构建依托 [gradle](http://www.gradle.org) 构建工具，需要手动下载好对应的发布包：
 ~~~~
