@@ -1,6 +1,8 @@
+drop table if exists USER;
+
 create table USER
 (
-    ID   DECIMAL(65535, 32767),
+    ID   int(11) NOT NULL AUTO_INCREMENT,
     NAME VARCHAR,
     SEX  VARCHAR,
     ADDR VARCHAR
