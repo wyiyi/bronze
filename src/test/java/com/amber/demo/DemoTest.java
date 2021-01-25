@@ -1,15 +1,11 @@
 package com.amber.demo;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.jdbc.Sql;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.Before;
+import org.junit.Test;
 
-@SpringBootTest
 class DemoTest {
 
-    @Test
+    @Before
     @Sql("/com/amber/demo/init.sql")
     void test(){
        assert true;
@@ -21,17 +17,9 @@ class DemoTest {
         assert true;
     }
 
-    @Test
+    @Test(expected = RuntimeException.class)
     @Sql("/com/amber/demo/utf8bom.sql")
     void testBom(){
-        Exception exception = assertThrows(RuntimeException.class, () -> {
-            Integer.parseInt("1a");
-        });
-
-        String expectedMessage = "Failed to execute SQL script statement";
-        String actualMessage = exception.getMessage();
-
-        assertTrue(actualMessage.contains(expectedMessage));
 
     }
 
