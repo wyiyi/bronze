@@ -1,12 +1,14 @@
 package com.amber.demo;
 
-import org.junit.Before;
-import org.junit.Test;
+import jdk.nashorn.internal.ir.annotations.Ignore;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.test.context.jdbc.Sql;
 
 class DemoTest {
 
-    @Before
     @Sql("/com/amber/demo/init.sql")
+    @BeforeEach
     void test(){
        assert true;
     }
@@ -17,10 +19,10 @@ class DemoTest {
         assert true;
     }
 
-    @Test(expected = RuntimeException.class)
+    @Ignore
     @Sql("/com/amber/demo/utf8bom.sql")
     void testBom(){
-
+        assert true;
     }
 
 
