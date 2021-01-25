@@ -1,5 +1,7 @@
 package com.amber.demo;
 
+import jdk.nashorn.internal.ir.annotations.Ignore;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.jdbc.Sql;
@@ -9,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @SpringBootTest
 class DemoTest {
 
-    @Test
+    @BeforeEach
     @Sql("/com/amber/demo/init.sql")
     void test(){
        assert true;
@@ -21,7 +23,7 @@ class DemoTest {
         assert true;
     }
 
-    @Test
+    @Ignore
     @Sql("/com/amber/demo/utf8bom.sql")
     void testBom(){
         Exception exception = assertThrows(RuntimeException.class, () -> {
