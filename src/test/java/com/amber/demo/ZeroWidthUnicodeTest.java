@@ -2,7 +2,7 @@ package com.amber.demo;
 
 import com.amber.demo.blog.WaterMark;
 import com.amber.demo.util.CodeUtil;
-import com.amber.demo.util.DeEncode;
+import com.amber.demo.blog.DeEncode;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
