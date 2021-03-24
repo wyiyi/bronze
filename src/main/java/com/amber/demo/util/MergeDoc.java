@@ -1,4 +1,4 @@
-package com.amber.demo.tool;
+package com.amber.demo.util;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -8,13 +8,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MergeDoc {
-    public static void main(String[] args) {
-        Map<String, String> map = getFilesDatas("F:\\南昌相关文档\\60接口");
-        for(String key : map.keySet()){
-            String value = map.get(key);
-            System.out.println("文件名："+key+"   内容："+value);
-        }
-    }
 
     public static Map<String, String> getFilesDatas(String filePath){
         Map<String, String> files = new HashMap<>();
