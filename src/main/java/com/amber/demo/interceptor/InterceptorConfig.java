@@ -1,6 +1,5 @@
 package com.amber.demo.interceptor;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -16,7 +15,7 @@ public class InterceptorConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(userLoginInterceptor).addPathPatterns("/hello");
+        registry.addInterceptor(userLoginInterceptor).addPathPatterns("/index");
     }
 
     @Override
