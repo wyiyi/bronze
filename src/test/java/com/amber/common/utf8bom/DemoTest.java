@@ -1,4 +1,4 @@
-package com.amber.demo;
+package com.amber.common.utf8bom;
 
 import jdk.nashorn.internal.ir.annotations.Ignore;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,19 +12,19 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class DemoTest {
 
     @BeforeEach
-    @Sql("/com/amber/demo/init.sql")
+    @Sql("/com/amber/common/init.sql")
     void test(){
        assert true;
     }
 
     @Test
-    @Sql("/com/amber/demo/insert.sql")
+    @Sql("/com/amber/common/insert.sql")
     void insert(){
         assert true;
     }
 
     @Ignore
-    @Sql("/com/amber/demo/utf8bom.sql")
+    @Sql("/com/amber/common/utf8bom.sql")
     void testBom(){
         Exception exception = assertThrows(RuntimeException.class, () -> {
             Integer.parseInt("1a");

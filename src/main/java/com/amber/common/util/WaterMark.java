@@ -1,6 +1,4 @@
-package com.amber.demo.blog;
-
-import com.amber.demo.util.CodeUtil;
+package com.amber.common.util;
 
 public class WaterMark {
 

@@ -1,11 +1,11 @@
-package com.amber.demo.util;
+package com.amber.common.util;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.math.BigDecimal;
 
-import static com.amber.demo.util.Calculation.*;
+import static com.amber.common.util.Calculation.*;
 
 @SpringBootTest
 class CalculationTest {

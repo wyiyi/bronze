@@ -1,4 +1,4 @@
-package com.amber.demo.blog;
+package com.amber.common.util;
 
 public class DeEncode {
     public String encode(String input) {

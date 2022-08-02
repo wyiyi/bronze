@@ -1,8 +1,8 @@
-package com.amber.demo;
+package com.amber.common.util;
 
-import com.amber.demo.blog.WaterMark;
-import com.amber.demo.util.CodeUtil;
-import com.amber.demo.blog.DeEncode;
+import com.amber.common.util.WaterMark;
+import com.amber.common.util.CodeUtil;
+import com.amber.common.util.DeEncode;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 

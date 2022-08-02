@@ -1,4 +1,4 @@
-package com.amber.demo.interceptor;
+package com.amber.common.interceptor;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

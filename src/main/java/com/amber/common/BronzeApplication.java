@@ -1,15 +1,17 @@
-package com.amber.demo;
+package com.amber.common;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.stereotype.Controller;
 
 @SpringBootApplication
 @Controller
-public class DemoApplication {
+@MapperScan
+public class BronzeApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(DemoApplication.class, args);
+		SpringApplication.run(BronzeApplication.class, args);
 	}
 
 }

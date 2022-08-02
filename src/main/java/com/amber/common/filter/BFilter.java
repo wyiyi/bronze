@@ -1,4 +1,4 @@
-package com.amber.demo.filter;
+package com.amber.common.filter;
 
 
 import org.slf4j.Logger;
@@ -10,26 +10,27 @@ import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import java.io.IOException;
 
-@Order(1)
-@WebFilter(filterName = "aFilter", value = "/*")
+@Order(0)
+@WebFilter(filterName = "bFilter", value = "/*")
 @Component
-public class AFilter implements Filter {
-    private static final Logger LOGGER = LoggerFactory.getLogger(AFilter.class);
+public class BFilter implements Filter{
+    private static final Logger LOGGER = LoggerFactory.getLogger(BFilter.class);
 
     @Override
     public void init(FilterConfig filterConfig) {
-        LOGGER.info("A Filter初始化,只初始化一次...");
+        LOGGER.info("B Filter初始化,只初始化一次...");
     }
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        LOGGER.info("A 拦截前执行...");
+        LOGGER.info("B 拦截前执行...");
         chain.doFilter(request,response);
-        LOGGER.info("A 拦截后执行...");
+        LOGGER.info("B 拦截后执行...");
     }
 
     @Override
     public void destroy() {
-        LOGGER.info("A Filter销毁...");
+        LOGGER.info("B Filter销毁...");
     }
+
 }

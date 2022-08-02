@@ -1,4 +1,4 @@
-package com.amber.demo.interceptor;
+package com.amber.common.interceptor;
 
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;

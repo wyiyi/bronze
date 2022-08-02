@@ -1,4 +1,4 @@
-package com.amber.demo.util;
+package com.amber.common.util;
 
 import java.io.File;
 import java.io.FileInputStream;

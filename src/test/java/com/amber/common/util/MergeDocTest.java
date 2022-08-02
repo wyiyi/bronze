@@ -1,11 +1,11 @@
-package com.amber.demo.util;
+package com.amber.common.util;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Map;
 
-import static com.amber.demo.util.MergeDoc.getFilesDatas;
+import static com.amber.common.util.MergeDoc.getFilesDatas;
 
 @SpringBootTest
 class MergeDocTest {

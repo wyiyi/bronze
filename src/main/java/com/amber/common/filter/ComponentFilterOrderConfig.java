@@ -1,4 +1,4 @@
-package com.amber.demo.filter;
+package com.amber.common.filter;
 
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
