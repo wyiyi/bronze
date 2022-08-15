@@ -19,10 +19,7 @@ dependencies {
     implementation 'com.h2database:h2:2.1.210'
     implementation 'javax.servlet:javax.servlet-api:3.1.0'
     annotationProcessor 'org.projectlombok:lombok'
-    implementation 'org.mybatis:mybatis-spring'
-    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.2'
-    implementation 'com.baomidou:mybatis-plus-core:3.3.1'
-    implementation 'com.baomidou:mybatis-plus-annotation:3.3.1'
+    implementation group: 'com.baomidou', name: 'mybatis-plus-boot-starter', version: '3.3.1'
     implementation 'io.springfox:springfox-swagger-ui:3.0.0'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
