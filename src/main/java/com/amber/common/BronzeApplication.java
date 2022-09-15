@@ -7,7 +7,7 @@ import org.springframework.stereotype.Controller;
 
 @SpringBootApplication
 @Controller
-@MapperScan
+@MapperScan({"com.amber.common.dao"})
 public class BronzeApplication {
 
 	public static void main(String[] args) {
