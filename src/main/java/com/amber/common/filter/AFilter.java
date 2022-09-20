@@ -10,9 +10,9 @@ import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import java.io.IOException;
 
-@Order(1)
-@WebFilter(filterName = "aFilter", value = "/*")
-@Component
+//@Order(1)
+//@WebFilter(filterName = "aFilter", value = "/*")
+//@Component
 public class AFilter implements Filter {
     private static final Logger LOGGER = LoggerFactory.getLogger(AFilter.class);
 
