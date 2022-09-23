@@ -6,7 +6,7 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode
-@ApiModel(description = "Æû³µÏà¹Ø")
+@ApiModel(description = "æ±½è½¦ç›¸å…³ä¿¡æ¯")
 public class Car {
 
     private String make;

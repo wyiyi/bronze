@@ -9,20 +9,20 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebFilter(filterName = "corsFilter", urlPatterns = {"/*"})
-@Component
+//@WebFilter(filterName = "corsFilter", urlPatterns = {"/*"})
+//@Component
 public class CORSConfig implements Filter {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AFilter.class);
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        LOGGER.info(" CORSFilter ≥ı ºªØ,÷ª≥ı ºªØ“ª¥Œ...");
+        LOGGER.info(" CORSFilter ÂàùÂßãÂåñ...");
     }
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        LOGGER.info(" CORSFilter ÷¥––...");
+        LOGGER.info(" CORSFilter ÊâßË°å...");
         HttpServletResponse res = (HttpServletResponse) response;
         res.setHeader("Access-Control-Allow-Credentials", String.valueOf(true));
         res.setHeader("Access-Control-Allow-Headers", "Content-Type,Access-Token,Authorization,ybg");
@@ -34,6 +34,6 @@ public class CORSConfig implements Filter {
 
     @Override
     public void destroy() {
-        LOGGER.info(" CORSFilter Filterœ˙ªŸ...");
+        LOGGER.info(" CORSFilter Filter ÁªìÊùü...");
     }
 }
