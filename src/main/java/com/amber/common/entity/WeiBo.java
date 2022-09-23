@@ -6,7 +6,7 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode
-@ApiModel(description = "��ȡ΢����ز���")
+@ApiModel(description = "微博评论相关信息")
 public class WeiBo {
     private String screen_name;
 
