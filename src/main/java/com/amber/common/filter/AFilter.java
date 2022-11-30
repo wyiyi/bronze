@@ -19,9 +19,8 @@ public class AFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        LOGGER.info("A 拦截前执行...");
+        LOGGER.info(" AFilter 处理中...");
         chain.doFilter(request,response);
-        LOGGER.info("A 拦截后执行...");
     }
 
     @Override
