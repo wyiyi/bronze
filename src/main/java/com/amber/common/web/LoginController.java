@@ -1,5 +1,6 @@
-package com.amber.common.interceptor;
+package com.amber.common.web;
 
+import com.amber.common.interceptor.UserLoginInterceptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.ui.Model;

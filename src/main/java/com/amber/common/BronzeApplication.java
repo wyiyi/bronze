@@ -3,10 +3,11 @@ package com.amber.common;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.stereotype.Controller;
 
 @SpringBootApplication
-@Controller
+@ServletComponentScan
 @MapperScan({"com.amber.common.dao"})
 public class BronzeApplication {
 

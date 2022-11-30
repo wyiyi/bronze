@@ -2,8 +2,8 @@ package com.amber.common.service.impl;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.amber.common.entity.WeiBo;
-import com.amber.common.service.WeiBoService;
+import com.amber.common.entity.User;
+import com.amber.common.service.UserService;
 import com.amber.common.util.HttpClient;
 import org.springframework.stereotype.Service;
 
@@ -15,16 +15,16 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public class WeiBoServiceImpl implements WeiBoService {
+public class UserServiceImpl implements UserService {
 
     @Override
-    public List<WeiBo> getInfo() {
+    public List<User> getInfo() {
         try {
-            List<WeiBo> weiBos = new ArrayList<>();
+            List<User> weiBos = new ArrayList<>();
             String outPut = HttpClient.sendGet("https://m.weibo.cn/comments/hotflow?id=4160547165300149&mid=4160547165300149&max_id_type=0");
             JSONArray jsonArray = (JSONArray) ((JSONObject) JSONObject.parseObject(outPut).get("data")).get("data");
             for (Object value : jsonArray) {
-                WeiBo weiBo = new WeiBo();
+                User weiBo = new User();
                 weiBo.setCreated_at(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(String.valueOf(((JSONObject) value).get("created_at")))));
                 weiBo.setText(String.valueOf(((JSONObject) value).get("text")));
                 weiBo.setScreen_name(String.valueOf(((JSONObject) ((JSONObject) value).get("user")).get("screen_name")));
@@ -37,7 +37,16 @@ public class WeiBoServiceImpl implements WeiBoService {
         }
     }
 
-    private void printToTXT(List<WeiBo> weiBos) throws FileNotFoundException {
+    @Override
+    public User getUserInfo() {
+        User user = new User();
+        user.setScreen_name("amber");
+        user.setCreated_at(String.valueOf(new Date()));
+        user.setText("今天星期三");
+        return user;
+    }
+
+    private void printToTXT(List<User> weiBos) throws FileNotFoundException {
         PrintStream ps = new PrintStream("C:\\Users\\Administrator\\Desktop\\sina.txt");
         System.setOut(ps);
         System.out.println(weiBos);

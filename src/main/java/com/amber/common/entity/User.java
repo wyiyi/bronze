@@ -7,7 +7,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode
 @ApiModel(description = "微博评论相关信息")
-public class WeiBo {
+public class User {
     private String screen_name;
 
     private String text;

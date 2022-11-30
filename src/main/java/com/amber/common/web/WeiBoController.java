@@ -1,7 +1,7 @@
 package com.amber.common.web;
 
-import com.amber.common.entity.WeiBo;
-import com.amber.common.service.WeiBoService;
+import com.amber.common.entity.User;
+import com.amber.common.service.UserService;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,11 +19,11 @@ import java.util.List;
 public class WeiBoController {
 
     @Autowired
-    private WeiBoService weiBoService;
+    private UserService userService;
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<WeiBo> getWeiBo() {
-        return weiBoService.getInfo();
+    public List<User> getWeiBo() {
+        return userService.getInfo();
     }
 }
