@@ -1,6 +1,5 @@
 package com.amber.common.web;
 
-import com.amber.common.interceptor.UserLoginInterceptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.ui.Model;
@@ -12,7 +11,7 @@ import java.util.Map;
 
 @RestController
 public class LoginController {
-    private static Logger log = LoggerFactory.getLogger(UserLoginInterceptor.class);
+    private static Logger log = LoggerFactory.getLogger(LoginController.class);
 
     @RequestMapping("/index")
     public Map<String,String> hello(Model model){

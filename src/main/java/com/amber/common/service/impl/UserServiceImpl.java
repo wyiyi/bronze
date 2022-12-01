@@ -42,7 +42,7 @@ public class UserServiceImpl implements UserService {
         User user = new User();
         user.setScreen_name("amber");
         user.setCreated_at(String.valueOf(new Date()));
-        user.setText("今天星期三");
+        user.setText("今天星期四");
         return user;
     }
 

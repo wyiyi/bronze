@@ -10,11 +10,11 @@ import org.springframework.stereotype.Component;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
-//@Order(1)
-@WebFilter(filterName = "aFilter", value = "/*")
-//@Component
+@WebFilter(filterName = "aFilter", value = "/api/amber/*")
+@Component
 public class AFilter implements Filter {
     private static final Logger LOGGER = LoggerFactory.getLogger(AFilter.class);
     @Autowired
@@ -29,6 +29,9 @@ public class AFilter implements Filter {
         LOGGER.info("AFilter 处理中...");
         User user = userService.getUserInfo();
         LOGGER.info("USER 信息：" +  user);
+        HttpServletRequest servletRequest = (HttpServletRequest) request;
+        LOGGER.info(String.valueOf(servletRequest.getRequestURL()));
+        chain.doFilter(request, response);
     }
 
     @Override
