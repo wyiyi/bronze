@@ -2,9 +2,12 @@ package com.amber.common.service.impl;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.amber.common.entity.MybatisDemo;
 import com.amber.common.entity.User;
+import com.amber.common.service.MybatisService;
 import com.amber.common.service.UserService;
 import com.amber.common.util.HttpClient;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.FileNotFoundException;
@@ -16,6 +19,9 @@ import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
+
+    @Autowired
+    private MybatisService mybatisService;
 
     @Override
     public List<User> getInfo() {
@@ -51,5 +57,10 @@ public class UserServiceImpl implements UserService {
         System.setOut(ps);
         System.out.println(weiBos);
         ps.close();
+    }
+
+    private void updateBatch(List<MybatisDemo> mybatisDemos){
+        mybatisService.saveOrUpdateBatch(mybatisDemos);
+        mybatisService.updateBatchById(mybatisDemos);
     }
 }
