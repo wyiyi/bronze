@@ -16,3 +16,16 @@ public class MybatisMapperServiceImpl implements MybatisMapperService {
         mybatisMapper.updateById(mybatisDemo);
     }
 }
+
+
+//public class MybatisMapperServiceImpl extends ServiceImpl<BaseMapper<MybatisDemo>, MybatisDemo> implements MybatisMapperService{
+//    @Resource
+//    MybatisMapper mybatisMapper;
+//
+//    public boolean updateById(MybatisDemo mybatisDemo){
+//        mybatisMapper.updateById(mybatisDemo);
+//
+//        return false;
+//    }
+//
+//}
