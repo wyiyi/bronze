@@ -10,14 +10,14 @@ import org.springframework.context.annotation.Configuration;
 public class ComponentFilterOrderConfig {
 //    @Autowired
 //    private AFilter aFilter;
-    @Bean
-    public FilterRegistrationBean filterBeanOne(AFilter aFilter) {
-        FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
-        filterRegistrationBean.setFilter(aFilter);
-        filterRegistrationBean.addUrlPatterns("/*");
-        filterRegistrationBean.setName("aFilter");
-        return filterRegistrationBean;
-    }
+//    @Bean
+//    public FilterRegistrationBean filterBeanOne(AFilter aFilter) {
+//        FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
+//        filterRegistrationBean.setFilter(aFilter);
+//        filterRegistrationBean.addUrlPatterns("/*");
+//        filterRegistrationBean.setName("aFilter");
+//        return filterRegistrationBean;
+//    }
 
 //    @Bean
 //    public FilterRegistrationBean filterBeanOne() {

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 
-@Service
+//@Service
 //public class MybatisMapperServiceImpl implements MybatisMapperService {
 //    @Resource
 //    MybatisMapper mybatisMapper;
@@ -19,14 +19,13 @@ import javax.annotation.Resource;
 //    }
 //}
 
-
+@Service
 public class MybatisMapperServiceImpl extends ServiceImpl<BaseMapper<MybatisDemo>, MybatisDemo> implements MybatisMapperService{
     @Resource
     MybatisMapper mybatisMapper;
 
     public boolean updateById(MybatisDemo mybatisDemo){
         mybatisMapper.updateById(mybatisDemo);
-
         return false;
     }
 
