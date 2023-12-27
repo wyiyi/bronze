@@ -13,8 +13,8 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
-@WebFilter(filterName = "aFilter", value = "/api/amber/*")
-@Component
+//@WebFilter(filterName = "aFilter", value = "/api/amber/*")
+//@Component
 public class AFilter implements Filter {
     private static final Logger LOGGER = LoggerFactory.getLogger(AFilter.class);
     @Autowired

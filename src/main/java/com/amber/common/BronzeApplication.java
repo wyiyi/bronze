@@ -7,7 +7,7 @@ import org.springframework.boot.web.servlet.ServletComponentScan;
 
 @SpringBootApplication
 @ServletComponentScan
-@MapperScan({"com.amber.common.dao"})
+@MapperScan({"com.amber.common.mapper"})
 public class BronzeApplication {
 
 	public static void main(String[] args) {
