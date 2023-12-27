@@ -1,5 +1,7 @@
 package com.amber.common.entity;
 
+import com.amber.common.annotation.FieldDesensitize;
+import com.amber.common.annotation.FieldEncrypt;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -10,13 +12,12 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
 import java.util.Date;
 
 @Data
 @EqualsAndHashCode
 @ApiModel(description = "相关信息")
-@TableName("USER")
+@TableName(value = "USER", autoResultMap = true)
 public class User {
 
     @JsonSerialize(using = ToStringSerializer.class)
@@ -27,7 +28,8 @@ public class User {
     @ApiModelProperty(value = "用户名")
     private String username;
 
-    @TableField("phone")
+    @TableField(value = "phone")
+    @FieldDesensitize
     @ApiModelProperty(value = "手机号")
     private String phone;
 
@@ -36,6 +38,7 @@ public class User {
     private String id_card;
 
     @TableField("address")
+    @FieldEncrypt
     @ApiModelProperty(value = "地址")
     private String address;
 

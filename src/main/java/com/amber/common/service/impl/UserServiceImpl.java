@@ -2,9 +2,7 @@ package com.amber.common.service.impl;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.amber.common.entity.Columns;
 import com.amber.common.entity.User;
-import com.amber.common.mapper.ColumnsMapper;
 import com.amber.common.mapper.UserMapper;
 import com.amber.common.util.HttpClient;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
