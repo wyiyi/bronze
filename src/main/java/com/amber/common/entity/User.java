@@ -1,7 +1,5 @@
 package com.amber.common.entity;
 
-import com.amber.common.annotation.FieldDesensitize;
-import com.amber.common.annotation.FieldEncrypt;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -29,7 +27,6 @@ public class User {
     private String username;
 
     @TableField(value = "phone")
-    @FieldDesensitize
     @ApiModelProperty(value = "手机号")
     private String phone;
 
@@ -38,7 +35,6 @@ public class User {
     private String id_card;
 
     @TableField("address")
-    @FieldEncrypt
     @ApiModelProperty(value = "地址")
     private String address;
 

@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    druid:
+      username: sa
+      password:
+    url: jdbc:h2:mem:test
+    filters: stat,wall,log4j
+mybatis:
+  mapper-locations: classpath*:sql/**/*Mapper.xml
+fsstore:
+  url:
+  bucket:
+logging:
+  level:
+    cn.amber.common: debug
+
+bronze:
+  sensitive:
+    cn.amber.common.sensitive.entity.User.phone: abb

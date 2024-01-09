@@ -1,1 +1,1 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.amber.common.config.PrivacyAutoConfiguration
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\

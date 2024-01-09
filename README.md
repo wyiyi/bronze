@@ -11,3 +11,6 @@ zipStorePath=wrapper/dists
 - 执行 gradle 命令
 - 如果发现在一直下载 Gradle 的 Zip 包，在 开发工具中配置指定版本的 Gradle 的路径，以 IDEA 配置为例：File -> Settings -> Build,Execution，Deployment -> Gradle -> Gradle user home
 - 关掉idea 重新打开即可自动编译项目，构建成功
+
+
+
