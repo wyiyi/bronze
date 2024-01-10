@@ -1,16 +1,12 @@
 package cn.amber.common.util
 
 import org.junit.jupiter.api.Test
-import org.junit.runner.RunWith
-import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.test.context.junit4.SpringRunner
 
 import static com.amber.common.util.Calculation.add
 import static com.amber.common.util.Calculation.divide
 import static com.amber.common.util.Calculation.multiply
 import static com.amber.common.util.Calculation.subtract
 
-@SpringBootTest
 class CalculationTest {
 
     @Test

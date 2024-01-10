@@ -8,7 +8,7 @@ import lombok.Data
 
 @Data
 @TableName('USERINFO')
-class User {
+class UserDO {
 
     @TableId(type = IdType.UUID, value='rid')
     String id

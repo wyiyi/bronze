@@ -1,11 +1,10 @@
 package cn.amber.common.util
 
+import com.amber.common.util.CodeUtil
 import com.amber.common.util.DeEncode
 import com.amber.common.util.WaterMark
 import org.junit.jupiter.api.Test
-import org.springframework.boot.test.context.SpringBootTest
 
-@SpringBootTest
 class ZeroWidthUnicodeTest {
     private WaterMark waterMark = new WaterMark();
     private DeEncode deEncode = new DeEncode();

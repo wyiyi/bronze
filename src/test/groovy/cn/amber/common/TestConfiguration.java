@@ -5,5 +5,5 @@ import org.springframework.context.annotation.Configuration;
 
 @MapperScan({"cn.amber.common.**.mapper"})
 @Configuration
-public class TestApplication {
+public class TestConfiguration {
 }

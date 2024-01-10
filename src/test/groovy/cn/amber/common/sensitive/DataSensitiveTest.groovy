@@ -1,23 +1,27 @@
 package cn.amber.common.sensitive
 
 import cn.amber.common.sensitive.mapper.UserDAO
-import cn.amber.common.sensitive.entity.Role
-import cn.amber.common.sensitive.entity.User
+import cn.amber.common.sensitive.entity.RoleDO
+import cn.amber.common.sensitive.entity.UserDO
 import cn.amber.common.sensitive.service.impl.RoleServiceImpl
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper
 import org.junit.Test
+import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.test.context.jdbc.Sql
+import org.springframework.test.context.junit4.SpringRunner
 
 import java.util.stream.Collectors
 
-@Sql(value = '/cn/amber/common/sensitive/DataSensitiveTest.sql')
-@SpringBootTest
+//@RunWith(SpringRunner.class)
+//@SpringBootTest(classes = DataSensitiveTest.class)
+@Sql("/cn/amber/common/sensitive/DataSensitiveTest.sql")
 class DataSensitiveTest {
+
     @Autowired
-    UserDAO userDAO
+    private UserDAO userDAO
 
     @Autowired
     RoleServiceImpl roleService
@@ -27,10 +31,10 @@ class DataSensitiveTest {
 
     @Test
     void test() {
-        assert jdbcTemplate.queryForObject('select count(*) from userinfo', Integer.class) == 0
+        assert jdbcTemplate.queryForObject('select count(*) from dual', Integer.class) == 0
 
         // Create
-        User user = new User()
+        UserDO user = new UserDO()
         user.setName('user name')
         user.setPhone('12345678901')
         user.setIdCard('234098uzxcv')
@@ -52,7 +56,7 @@ class DataSensitiveTest {
 
         // Retrieve
 
-        User retrievedUser = userDAO.selectById(user.getId())
+        UserDO retrievedUser = userDAO.selectById(user.getId())
         assert retrievedUser.getPhone() == '123****8901'
         assert retrievedUser.getIdCard() == '234098uzxcv'
 
@@ -76,22 +80,22 @@ class DataSensitiveTest {
     void saveBatch() {
         assert jdbcTemplate.queryForObject('select count(*) from roleinfo', Integer) == 0
 
-        Role roleDO1 = new Role()
+        RoleDO roleDO1 = new RoleDO()
         roleDO1.setName('role name 1')
         roleDO1.setPhone('18911352460')
         roleDO1.setIdCard('110101200007289104')
 
-        Role roleDO2 = new Role()
+        RoleDO roleDO2 = new RoleDO()
         roleDO2.setName('role name 2')
         roleDO2.setPhone('13011876690')
         roleDO2.setIdCard('110101200007289104')
 
-        Role roleDO3 = new Role()
+        RoleDO roleDO3 = new RoleDO()
         roleDO3.setName('role name 3')
         roleDO3.setPhone('15928132177')
         roleDO3.setIdCard('21010120000728600X')
 
-        List<Role> roleDOS = new ArrayList<>()
+        List<RoleDO> roleDOS = new ArrayList<>()
         roleDOS.add(roleDO1)
         roleDOS.add(roleDO2)
         roleDOS.add(roleDO3)
@@ -104,7 +108,7 @@ class DataSensitiveTest {
         assert jdbcTemplate.queryForList('select id_card from roleinfo', String) != ['110101200007289104', '110101200007289104', '21010120000728600X']
         assert jdbcTemplate.queryForList('select id_card from roleinfo', String)[0].length() == sm4ValueLen
 
-        List<Role> roles = roleService.list()
+        List<RoleDO> roles = roleService.list()
         assert roles.size() == 3
         assert roles[0].getPhone() == '189****2460'
         assert roles[1].getPhone() == '130****6690'
@@ -113,11 +117,11 @@ class DataSensitiveTest {
         assert roles[1].getIdCard() == '110101200007289104'
         assert roles[2].getIdCard() == '21010120000728600X'
 
-        List<Role> filterList = roles.stream().filter({ role -> role.getIdCard() == "110101200007289104" }).collect(Collectors.toList());
+        List<RoleDO> filterList = roles.stream().filter({ role -> role.getIdCard() == "110101200007289104" }).collect(Collectors.toList());
         assert filterList.size() == 2
 
-        List<Role> roleList = new ArrayList<Role>()
-        for (Role roleDO : filterList) {
+        List<RoleDO> roleList = new ArrayList<RoleDO>()
+        for (RoleDO roleDO : filterList) {
             roleDO.setPhone('13111112222')
             roleDO.setIdCard('210103')
             roleList.add(roleDO)
@@ -128,7 +132,7 @@ class DataSensitiveTest {
         assert jdbcTemplate.queryForList('select phone from roleinfo', String) == ['13111112222', '13111112222', '15928132177']
         assert jdbcTemplate.queryForList('select id_card from roleinfo', String) != ['210103', '210103', '21010120000728600X']
 
-        QueryWrapper<Role> wrapper = new QueryWrapper()
+        QueryWrapper<RoleDO> wrapper = new QueryWrapper()
         wrapper.eq('phone', '13111112222')
         roles = roleService.list(wrapper)
         assert roles.size() == 2

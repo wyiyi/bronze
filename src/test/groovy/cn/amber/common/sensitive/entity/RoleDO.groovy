@@ -8,7 +8,7 @@ import lombok.Data
 
 @Data
 @TableName('ROLEINFO')
-class Role {
+class RoleDO {
     @TableId(type = IdType.UUID, value='rid')
     String id
     @TableField('role_name')
