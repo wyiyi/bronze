@@ -12,16 +12,15 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.test.context.jdbc.Sql
 import org.springframework.test.context.junit4.SpringRunner
-
 import java.util.stream.Collectors
 
-//@RunWith(SpringRunner.class)
-//@SpringBootTest(classes = DataSensitiveTest.class)
-@Sql("/cn/amber/common/sensitive/DataSensitiveTest.sql")
+@Sql
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = DataSensitiveTest.class)
 class DataSensitiveTest {
 
     @Autowired
-    private UserDAO userDAO
+    UserDAO userDAO
 
     @Autowired
     RoleServiceImpl roleService
@@ -31,7 +30,7 @@ class DataSensitiveTest {
 
     @Test
     void test() {
-        assert jdbcTemplate.queryForObject('select count(*) from dual', Integer.class) == 0
+        assert jdbcTemplate.queryForObject('select count(*) from userinfo', Integer) == 0
 
         // Create
         UserDO user = new UserDO()

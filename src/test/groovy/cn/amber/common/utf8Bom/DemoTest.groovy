@@ -7,24 +7,22 @@ import org.springframework.test.context.jdbc.Sql
 import static org.junit.jupiter.api.Assertions.assertThrows
 import static org.junit.jupiter.api.Assertions.assertTrue
 
+@Sql
 class DemoTest {
 
     @Test
-    @Sql("/cn/amber/common/utf8Bom/init.sql")
     void test(){
         assert true;
     }
 
     @Test
-    @Sql("/cn/amber/common/utf8Bom/insert.sql")
     void insert(){
         assert true;
     }
 
     @Ignore
-    @Sql("/cn/amber/common/utf8Bom/utf8bom.sql")
     void testBom(){
-        Exception exception = assertThrows(RuntimeException.class, () -> {
+        Exception exception = assertThrows(RuntimeException.class, { ->
             Integer.parseInt("1a");
         });
 

@@ -14,10 +14,11 @@ logging:
   level:
     cn.amber.common: debug
 
+# todo
 bronze:
   com:
     amber:
       common:
         sensitive:
-          cn.amber.common.sensitive.entity.UserDO.phone: abb
+          entity.UserDO.phone: abb
           cn.amber.common.sensitive.entity.UserDO.idCard: sm4
