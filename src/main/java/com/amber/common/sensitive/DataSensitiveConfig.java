@@ -7,10 +7,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 获取 hsa.ips.framework.db 配置的实体类中的敏感字段
+ * 获取 com.amber.common 配置的实体类中的敏感字段
  */
 @Component
-@ConfigurationProperties("hsa.ips.framework.db")
+@ConfigurationProperties("com.amber.common")
 public class DataSensitiveConfig {
 
     private Map<String, String> sensitive = new HashMap<>();

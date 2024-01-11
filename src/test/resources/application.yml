@@ -14,11 +14,12 @@ logging:
   level:
     cn.amber.common: debug
 
-# todo
-bronze:
-  com:
-    amber:
-      common:
+com:
+  amber:
+    common:
         sensitive:
-          entity.UserDO.phone: abb
-          cn.amber.common.sensitive.entity.UserDO.idCard: sm4
+          com.amber.common.sensitive.entity.UserDO.phone: abb
+          com.amber.common.sensitive.entity.UserDO.password: md5
+          com.amber.common.sensitive.entity.UserDO.idCard: sm4
+          com.amber.common.sensitive.entity.RoleDO.phone: abb
+          com.amber.common.sensitive.entity.RoleDO.idCard: sm4
