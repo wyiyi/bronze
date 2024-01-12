@@ -1,6 +1,7 @@
 package com.amber.common.sensitive
 
-import com.amber.common.BaseJunitTest
+
+import com.amber.common.base.BaseApplicationTests
 import com.amber.common.sensitive.mapper.UserDAO
 import com.amber.common.sensitive.entity.RoleDO
 import com.amber.common.sensitive.entity.UserDO
@@ -13,7 +14,7 @@ import org.springframework.test.context.jdbc.Sql
 import java.util.stream.Collectors
 
 @Sql
-class DataSensitiveTest extends BaseJunitTest{
+class DataSensitiveTest extends BaseApplicationTests{
 
     @Autowired
     UserDAO userDAO
