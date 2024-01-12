@@ -1,23 +1,19 @@
 package com.amber.common.sensitive
 
+import com.amber.common.BaseJunitTest
 import com.amber.common.sensitive.mapper.UserDAO
 import com.amber.common.sensitive.entity.RoleDO
 import com.amber.common.sensitive.entity.UserDO
 import com.amber.common.sensitive.service.impl.RoleServiceImpl
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper
 import org.junit.Test
-import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.test.context.jdbc.Sql
-import org.springframework.test.context.junit4.SpringRunner
 import java.util.stream.Collectors
 
 @Sql
-@RunWith(SpringRunner.class)
-@SpringBootTest
-class DataSensitiveTest {
+class DataSensitiveTest extends BaseJunitTest{
 
     @Autowired
     UserDAO userDAO
