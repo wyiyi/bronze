@@ -1,12 +1,14 @@
 package com.amber.common.sensitive
 
-
+import cn.hutool.crypto.SmUtil
+import cn.hutool.crypto.symmetric.SymmetricCrypto
 import com.amber.common.base.BaseApplicationTests
 import com.amber.common.sensitive.mapper.UserDAO
 import com.amber.common.sensitive.entity.RoleDO
 import com.amber.common.sensitive.entity.UserDO
 import com.amber.common.sensitive.service.impl.RoleServiceImpl
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper
+import org.apache.commons.codec.digest.DigestUtils
 import org.junit.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.jdbc.core.JdbcTemplate
@@ -25,6 +27,8 @@ class DataSensitiveTest extends BaseApplicationTests{
     @Autowired
     JdbcTemplate jdbcTemplate
 
+    private static final SymmetricCrypto SM4 = SmUtil.sm4();
+
     @Test
     void test() {
         assert jdbcTemplate.queryForObject('select count(*) from userinfo', Integer) == 0
@@ -39,14 +43,14 @@ class DataSensitiveTest extends BaseApplicationTests{
         assert userDAO.insert(user) == 1
         assert user.getId() > ''
         assert user.getPhone() == '12345678901'
-        assert user.getPassword() == 'e10adc3949ba59abbe56e057f20f883e'
+        assert user.getPassword() == DigestUtils.md5Hex('123456')
         assert user.getIdCard() != '234098uzxcv'
-        def sm4ValueLen = '9743b76689643f810bb72478a7fb59a6'.length()
+        def sm4ValueLen = SM4.encryptHex('234098uzxcv').length()
         assert user.getIdCard().length() == sm4ValueLen
 
         assert jdbcTemplate.queryForObject('select count(*) from userinfo', Integer) == 1
         assert jdbcTemplate.queryForObject('select phone from userinfo', String) == '12345678901'
-        assert jdbcTemplate.queryForObject('select password from userinfo', String) == 'e10adc3949ba59abbe56e057f20f883e'
+        assert jdbcTemplate.queryForObject('select password from userinfo', String) == DigestUtils.md5Hex('123456')
         assert jdbcTemplate.queryForObject('select id_card from userinfo', String) != '234098uzxcv'
         assert jdbcTemplate.queryForObject('select id_card from userinfo', String).length() == sm4ValueLen
 
@@ -98,7 +102,7 @@ class DataSensitiveTest extends BaseApplicationTests{
 
         roleService.saveBatch(roleDOS)
 
-        def sm4ValueLen = '9898d58a8d2f0b28645d3864a2fbefd18202bbd8d0da9d10fc5b9cc9b7685d87'.length()
+        def sm4ValueLen = SM4.encryptHex('110101200007289104').length()
         assert roleDOS[0].getIdCard().length() == sm4ValueLen
         assert jdbcTemplate.queryForList('select phone from roleinfo', String) == ['18911352460', '13011876690', '15928132177']
         assert jdbcTemplate.queryForList('select id_card from roleinfo', String) != ['110101200007289104', '110101200007289104', '21010120000728600X']
