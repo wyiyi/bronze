@@ -1,4 +1,4 @@
-package com.amber.common.sensitive.entity
+package com.amber.common.sensitive.mock.entity
 
 import com.baomidou.mybatisplus.annotation.IdType
 import com.baomidou.mybatisplus.annotation.TableField
@@ -11,8 +11,12 @@ import lombok.Data
 class RoleDO {
     @TableId(type = IdType.UUID, value='rid')
     String id
+
     @TableField('role_name')
     String name
-    String phone
-    String idCard
+
+    String description
+
+    @TableField(exist = false)
+    List<UserDO> users;
 }

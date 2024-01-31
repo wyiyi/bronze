@@ -20,6 +20,7 @@ com:
         sensitive:
           com.amber.common.sensitive.entity.UserDO.phone: abb
           com.amber.common.sensitive.entity.UserDO.password: md5
-          com.amber.common.sensitive.entity.UserDO.idCard: sm4
-          com.amber.common.sensitive.entity.RoleDO.phone: abb
-          com.amber.common.sensitive.entity.RoleDO.idCard: sm4
+          com.amber.common.sensitive.entity.UserDO.idCard: sm4hex
+          com.amber.common.sensitive.entity.RoleDO.name: abb
+          com.amber.common.sensitive.entity.RoleDO.description: sm4hex
+          com.amber.common.sensitive.entity.UserHistoryDO.historyEvent: sm4hex

@@ -31,6 +31,7 @@ public class DataSensitiveInterceptor implements Interceptor {
 
     /**
      * 获取配置文件中需要加密的属性
+     *
      * @param config DataSensitiveConfig
      */
     public DataSensitiveInterceptor(DataSensitiveConfig config) {
@@ -39,6 +40,7 @@ public class DataSensitiveInterceptor implements Interceptor {
 
     /**
      * 通过拦截器处理
+     *
      * @param invocation invocation
      * @return Object
      * @throws Throwable 异常
@@ -87,8 +89,9 @@ public class DataSensitiveInterceptor implements Interceptor {
                 DataSensitiveHandler handler = SpringContextHolder.getBean("dataSensitiveHandler-" + handlerName);
                 BeanWrapper wrapper = new BeanWrapperImpl(object);
                 wrapper.setPropertyValue(property,
-                        encrypt ? handler.encrypt(String.valueOf(wrapper.getPropertyValue(property))) :
-                                handler.decrypt(String.valueOf(wrapper.getPropertyValue(property)))
+                        wrapper.getPropertyValue(property) == null ? null :
+                                encrypt ? handler.encrypt(String.valueOf(wrapper.getPropertyValue(property))) :
+                                        handler.decrypt(String.valueOf(wrapper.getPropertyValue(property)))
                 );
             }
         }

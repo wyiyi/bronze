@@ -1,10 +1,10 @@
 package com.amber.common.sensitive
 
 import com.amber.common.base.BaseApplicationTests
-import com.amber.common.sensitive.entity.RoleDO
-import com.amber.common.sensitive.entity.UserDO
-import com.amber.common.sensitive.mapper.UserDAO
-import com.amber.common.sensitive.service.impl.RoleServiceImpl
+import com.amber.common.sensitive.mock.entity.RoleDO
+import com.amber.common.sensitive.mock.entity.UserDO
+import com.amber.common.sensitive.mock.mapper.UserDAO
+import com.amber.common.sensitive.mock.service.RoleService
 import org.junit.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.test.context.jdbc.Sql
@@ -16,14 +16,13 @@ class MapperTest extends BaseApplicationTests{
     UserDAO userDAO
 
     @Autowired
-    RoleServiceImpl roleService
+    RoleService roleService
 
     @Test
     void testService() {
         RoleDO roleDO = new RoleDO()
         roleDO.setName('role name 1')
-        roleDO.setPhone('18911352460')
-        roleDO.setIdCard('110101200007289104')
+        roleDO.setDescription('role info')
         roleService.saveOrUpdate(roleDO)
     }
 

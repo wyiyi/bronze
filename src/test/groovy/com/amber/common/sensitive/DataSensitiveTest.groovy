@@ -1,143 +1,254 @@
 package com.amber.common.sensitive
 
 import com.amber.common.base.BaseApplicationTests
-import com.amber.common.sensitive.mapper.UserDAO
-import com.amber.common.sensitive.entity.RoleDO
-import com.amber.common.sensitive.entity.UserDO
-import com.amber.common.sensitive.service.impl.RoleServiceImpl
+import com.amber.common.sensitive.mock.entity.UserHistoryDO
+import com.amber.common.sensitive.mock.entity.UserRoleDO
+import com.amber.common.sensitive.mock.entity.RoleDO
+import com.amber.common.sensitive.mock.entity.UserDO
+import com.amber.common.sensitive.mock.mapper.RoleDAO
+import com.amber.common.sensitive.mock.mapper.UserDAO
+import com.amber.common.sensitive.mock.service.RoleService
+import com.amber.common.sensitive.mock.service.UserHistoryService
+import com.amber.common.sensitive.mock.service.UserRoleService
+import com.amber.common.sensitive.mock.service.UserService
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper
+import org.apache.commons.lang3.RandomStringUtils
 import org.junit.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.test.context.jdbc.Sql
-import java.util.stream.Collectors
+import org.springframework.transaction.annotation.Transactional
+import java.nio.charset.StandardCharsets
 
 @Sql
+@Transactional
 class DataSensitiveTest extends BaseApplicationTests{
 
     @Autowired
     UserDAO userDAO
-
     @Autowired
-    RoleServiceImpl roleService
+    RoleDAO roleDAO
+    @Autowired
+    UserService userService
+    @Autowired
+    RoleService roleService
+    @Autowired
+    UserRoleService userRoleService
+    @Autowired
+    UserHistoryService userHistoryService
 
     @Autowired
     JdbcTemplate jdbcTemplate
 
+    def static final MD5_LEN = 32
+    def name = 'user name'
+    def phone = '12345678901'
+    def idCard = '234098uzxcv'
+    def pwd = '123456'
+
     @Test
-    void test() {
+    void cruTest() {
+        def user = testCreate()
+        def retrievedUser = testRetrieve(user.getId())
+        testUpdate(retrievedUser)
+    }
+
+    def testCreate() {
         assert jdbcTemplate.queryForObject('select count(*) from userinfo', Integer) == 0
 
-        // Create
         UserDO user = new UserDO()
-        user.setName('user name')
-        user.setPhone('12345678901')
-        user.setIdCard('234098uzxcv')
-        user.setPassword('123456')
+        user.setName(name)
+        user.setPhone(phone)
+        user.setIdCard(idCard)
+        user.setPassword(pwd)
 
         assert userDAO.insert(user) == 1
         assert user.getId() > ''
-        assert user.getPhone() == '12345678901'
-        assert user.getPassword() == 'e10adc3949ba59abbe56e057f20f883e'
-        assert user.getIdCard() != '234098uzxcv'
-        // str.length <15  sm4 length 32
-        // str.length >15  sm4 length 64
-        // str.length >32 sm4 length 96
-        // sm4 length 128 160 192 ...
-        def sm4ValueLen = 32
-        assert user.getIdCard().length() == sm4ValueLen
+        // abb handler
+        assert user.getPhone() == phone
+        // md5 handler
+        assert user.getPassword().length() == MD5_LEN
+        // sm4hex handler
+        assert user.getIdCard() != idCard && user.getIdCard().length() == getSm4HexLen(idCard)
 
         assert jdbcTemplate.queryForObject('select count(*) from userinfo', Integer) == 1
-        assert jdbcTemplate.queryForObject('select phone from userinfo', String) == '12345678901'
-        assert jdbcTemplate.queryForObject('select password from userinfo', String) == 'e10adc3949ba59abbe56e057f20f883e'
+        assert jdbcTemplate.queryForObject('select phone from userinfo', String) == phone
+        assert jdbcTemplate.queryForObject('select password from userinfo', String).length() == MD5_LEN
         assert jdbcTemplate.queryForObject('select id_card from userinfo', String) != '234098uzxcv'
-        assert jdbcTemplate.queryForObject('select id_card from userinfo', String).length() == sm4ValueLen
+        assert jdbcTemplate.queryForObject('select id_card from userinfo', String).length() == getSm4HexLen(idCard)
 
-        // Retrieve
+        return user
+    }
 
-        UserDO retrievedUser = userDAO.selectById(user.getId())
-        assert retrievedUser.getPhone() == '123****8901'
-        assert retrievedUser.getIdCard() == '234098uzxcv'
+    static int getSm4HexLen(String str) {
+        // SM4算法的块大小为16字节
+        int blockSize = 16
+        str > '' ?
+                ((int) (str.getBytes(StandardCharsets.UTF_8).length / blockSize) + 1) * blockSize * 2 :
+                0
+    }
 
-        // Update
-        retrievedUser.setPhone('01234567890')
-        retrievedUser.setIdCard('210103')
-        userDAO.updateById(retrievedUser)
-        assert retrievedUser.getPhone() == '01234567890'
-        assert retrievedUser.getIdCard() != '210103'
-        assert retrievedUser.getIdCard().length() == sm4ValueLen
+    def testRetrieve(String userId) {
+        UserDO retrievedUser = userDAO.selectById(userId)
+        assert retrievedUser.getPhone() != phone
+        assert retrievedUser.getPhone() == '123*****901'
+        assert retrievedUser.getIdCard() == idCard
+        return retrievedUser
+    }
 
-        assert jdbcTemplate.queryForObject('select phone from userinfo', String) == '01234567890'
-        assert jdbcTemplate.queryForObject('select id_card from userinfo', String) != '210103'
+    def testUpdate(UserDO userToUpdate) {
+        def newPhone = '01234567890'
+        def newIdCard = '12345678901234567'
 
-        retrievedUser = userDAO.selectById(user.getId())
-        assert retrievedUser.getPhone() == '012****7890'
-        assert retrievedUser.getIdCard() == '210103'
+        userToUpdate.setPhone(newPhone)
+        userToUpdate.setIdCard(newIdCard)
+        userDAO.updateById(userToUpdate)
+
+        assert userToUpdate.getPhone() == newPhone
+        assert userToUpdate.getIdCard() != newIdCard
+        assert userToUpdate.getIdCard().length() == getSm4HexLen(newIdCard)
+
+        assert jdbcTemplate.queryForObject('select phone from userinfo', String) == newPhone
+        assert jdbcTemplate.queryForObject('select id_card from userinfo', String) != newIdCard
+
+        def retrievedUser = userDAO.selectById(userToUpdate.getId())
+        assert retrievedUser.getPhone() == '012*****890'
+        assert retrievedUser.getIdCard() == newIdCard
     }
 
     @Test
-    void saveBatch() {
-        assert jdbcTemplate.queryForObject('select count(*) from roleinfo', Integer) == 0
-
-        RoleDO roleDO1 = new RoleDO()
-        roleDO1.setName('role name 1')
-        roleDO1.setPhone('18911352460')
-        roleDO1.setIdCard('110101200007289104')
-
-        RoleDO roleDO2 = new RoleDO()
-        roleDO2.setName('role name 2')
-        roleDO2.setPhone('13011876690')
-        roleDO2.setIdCard('110101200007289104')
-
-        RoleDO roleDO3 = new RoleDO()
-        roleDO3.setName('role name 3')
-        roleDO3.setPhone('15928132177')
-        roleDO3.setIdCard('21010120000728600X')
-
-        List<RoleDO> roleDOS = new ArrayList<>()
-        roleDOS.add(roleDO1)
-        roleDOS.add(roleDO2)
-        roleDOS.add(roleDO3)
-
-        roleService.saveBatch(roleDOS)
-
-        def sm4ValueLen = 64
-        assert roleDOS[0].getIdCard().length() == sm4ValueLen
-        assert jdbcTemplate.queryForList('select phone from roleinfo', String) == ['18911352460', '13011876690', '15928132177']
-        assert jdbcTemplate.queryForList('select id_card from roleinfo', String) != ['110101200007289104', '110101200007289104', '21010120000728600X']
-        assert jdbcTemplate.queryForList('select id_card from roleinfo', String)[0].length() == sm4ValueLen
-
-        List<RoleDO> roles = roleService.list()
-        assert roles.size() == 3
-        assert roles[0].getPhone() == '189****2460'
-        assert roles[1].getPhone() == '130****6690'
-        assert roles[2].getPhone() == '159****2177'
-        assert roles[0].getIdCard() == '110101200007289104'
-        assert roles[1].getIdCard() == '110101200007289104'
-        assert roles[2].getIdCard() == '21010120000728600X'
-
-        List<RoleDO> filterList = roles.stream().filter({ role -> role.getIdCard() == "110101200007289104" }).collect(Collectors.toList());
-        assert filterList.size() == 2
-
-        List<RoleDO> roleList = new ArrayList<RoleDO>()
-        for (RoleDO roleDO : filterList) {
-            roleDO.setPhone('13111112222')
-            roleDO.setIdCard('210103')
-            roleList.add(roleDO)
-        }
-        roleService.updateBatchById(roleList)
-
-        assert jdbcTemplate.queryForObject('select count(*) from roleinfo', Integer) == 3
-        assert jdbcTemplate.queryForList('select phone from roleinfo', String) == ['13111112222', '13111112222', '15928132177']
-        assert jdbcTemplate.queryForList('select id_card from roleinfo', String) != ['210103', '210103', '21010120000728600X']
-
-        QueryWrapper<RoleDO> wrapper = new QueryWrapper()
-        wrapper.eq('phone', '13111112222')
-        roles = roleService.list(wrapper)
-        assert roles.size() == 2
-        assert roles[0].getPhone() == '131****2222'
-        assert roles[1].getPhone() == '131****2222'
-        assert roles[0].getIdCard() == '210103'
-        assert roles[1].getIdCard() == '210103'
+    void batchTest() {
+        testBatchInsert()
+        List<UserDO> retrievedUsers = testBatchRetrieve()
+        testBatchUpdate(retrievedUsers)
     }
+
+    def testBatchInsert() {
+        assert jdbcTemplate.queryForObject('select count(*) from userinfo', Integer) == 0
+
+        List<UserDO> users = new ArrayList<>()
+        3.times {
+            UserDO user = new UserDO()
+            user.setName("${name}${it+1}")
+            user.setPhone("${phone}${it+1}")
+            user.setPassword("${pwd}${it+1}")
+            user.setIdCard("${idCard}${it+1}")
+            users.add(user)
+        }
+        userService.saveBatch(users)
+
+        assert jdbcTemplate.queryForObject('select count(*) from userinfo', Integer) == 3
+        // sm4hex handler
+        assert users.get(0).getIdCard() != idCard
+        assert users.get(0).getIdCard().length() == getSm4HexLen(idCard)
+        // abb handler
+        assert jdbcTemplate.queryForList('select phone from userinfo', String) == ["${phone}1", "${phone}2", "${phone}3"]
+        assert users.get(0).getPhone() == "${phone}1"
+        // sm4hex handler
+        def queriedIdCard = jdbcTemplate.queryForObject("select id_card from userinfo where user_name='${name}2'", String)
+        assert queriedIdCard != "${idCard}2"
+        assert queriedIdCard.length() == getSm4HexLen("${idCard}2")
+    }
+
+    def testBatchRetrieve() {
+        List<UserDO> retrievedUsers = userService.list()
+        assert retrievedUsers.size() == 3
+        assert retrievedUsers[0].getPhone() == '1234****9011'
+        assert retrievedUsers[1].getPhone() == '1234****9012'
+        assert retrievedUsers[2].getPhone() == '1234****9013'
+        assert retrievedUsers[0].getIdCard() == "${idCard}1"
+        assert retrievedUsers[1].getIdCard() == "${idCard}2"
+        assert retrievedUsers[2].getIdCard() == "${idCard}3"
+        return retrievedUsers
+    }
+
+    def testBatchUpdate(List<UserDO> retrievedUsers) {
+        List<UserDO> usersToUpdate = new ArrayList<UserDO>()
+        for (UserDO user : retrievedUsers) {
+            user.setPhone(phone.reverse())
+            user.setIdCard(idCard.reverse())
+            usersToUpdate.add(user)
+        }
+        userService.updateBatchById(usersToUpdate)
+
+        assert jdbcTemplate.queryForObject("select count(*) from userinfo where phone = '${phone.reverse()}'", Integer) == 3
+        assert jdbcTemplate.queryForObject("select id_card from userinfo where user_name='${name}3'", String).length() == getSm4HexLen("${idCard.reverse()}")
+
+        QueryWrapper<UserDO> wrapper = new QueryWrapper()
+        wrapper.eq('phone', phone.reverse())
+        retrievedUsers = userService.list(wrapper)
+        assert retrievedUsers.size() == 3
+        assert retrievedUsers[0].getPhone() == '109*****321'
+        assert retrievedUsers[1].getIdCard() == idCard.reverse()
+    }
+
+    @Test
+    void oneToManyTest() {
+        def event = RandomStringUtils.randomAlphabetic(10)
+        def user = testCreate()
+
+        def histories = []
+        3.times {
+            histories.add(UserHistoryDO.builder().userId(user.getId()).historyEvent("$event$it").build())
+        }
+        userHistoryService.saveBatch(histories)
+
+        user = userDAO.selectById(user.getId())
+        assert user.histories == null
+
+        user = userDAO.getUserWithHistoriesById(user.getId())
+        assert user.histories.size() == 3
+        assert user.histories[0].historyEvent == "${event}0"
+
+        def dataInDB = jdbcTemplate.queryForList("select history_event from userinfo_history where user_id='${user.getId()}'", String)
+        assert dataInDB[1].length() == getSm4HexLen("${event}1")
+    }
+
+    @Test
+    void ManyToManyTest() {
+        assert jdbcTemplate.queryForObject('select count(*) from ROLEINFO', Integer) == 0
+        assert jdbcTemplate.queryForObject('select count(*) from USERINFO', Integer) == 0
+
+        testBatchInsert()
+        List<UserDO> users = userService.list()
+        assert users.size() == 3
+
+        List<RoleDO> roles = new ArrayList<>()
+        3.times {
+            RoleDO role = new RoleDO()
+            role.setName("${name}${it+1}")
+            role.setDescription("$phone$pwd$idCard${it+1}")
+            roles.add(role)
+        }
+        roleService.saveBatch(roles)
+        roles = roleService.list()
+        assert roles.size() == 3
+
+        List<UserRoleDO> userRoleRelations = new ArrayList<>()
+        for (i in 0..<users.size()) {
+            for (j in i..<roles.size()) {
+                UserRoleDO userRoleDO = new UserRoleDO()
+                userRoleDO.setUserid(users.get(i).getId())
+                userRoleDO.setRoleid(roles.get(j).getId())
+                userRoleRelations.add(userRoleDO)
+            }
+        }
+        userRoleService.saveBatch(userRoleRelations)
+        userRoleRelations = userRoleService.list()
+        assert userRoleRelations.size() == 6
+
+        List<RoleDO> roleList = userDAO.getRolesByUserId(users[0].id)
+        assert roleList.size() == 3
+        assert roleList[0].getId() > ''
+        assert roleList[1].getName() == 'use****me2'
+        assert roleList[2].getDescription() == "$phone$pwd${idCard}3"
+        def desc = jdbcTemplate.queryForObject("select description from roleinfo where rid='${roleList[2].getId()}'", String)
+        assert desc.length() == getSm4HexLen("$phone$pwd${idCard}3")
+
+        List<UserDO> userList = roleDAO.getUsersByRoleId(roles.get(1).getId())
+        assert userList.size() == 2
+        assert userList[0].getPhone() == '1234****9011'
+        assert userList[1].getIdCard() == "${idCard}2"
+    }
+
 }
