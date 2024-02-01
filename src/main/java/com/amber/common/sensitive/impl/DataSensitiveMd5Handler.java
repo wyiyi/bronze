@@ -22,14 +22,4 @@ public class DataSensitiveMd5Handler implements DataSensitiveHandler {
         return DigestUtils.md5Hex(str);
     }
 
-    /**
-     * 使用 md5 算法进行解密
-     * @param str str
-     * @return String
-     */
-    @Override
-    public String decrypt(String str) {
-        return str;
-    }
-
 }
