@@ -1,0 +1,26 @@
+spring:
+  datasource:
+    druid:
+      username: sa
+      password:
+    url: jdbc:h2:mem:test
+    filters: stat,wall,log4j
+mybatis:
+  mapper-locations: classpath*:sql/**/*Mapper.xml
+fsstore:
+  url:
+  bucket:
+logging:
+  level:
+    cn.amber.common: debug
+
+com:
+  amber:
+    common:
+        sensitive:
+          com.amber.common.sensitive.mock.entity.UserDO.phone: abb
+          com.amber.common.sensitive.mock.entity.UserDO.password: md5
+          com.amber.common.sensitive.mock.entity.UserDO.idCard: sm4hex
+          com.amber.common.sensitive.mock.entity.RoleDO.name: abb
+          com.amber.common.sensitive.mock.entity.RoleDO.description: sm4hex
+          com.amber.common.sensitive.mock.entity.UserHistoryDO.historyEvent: sm4hex
